@@ -1,0 +1,8 @@
+<nav>
+    <ul style="display: flex; gap: 35px;">
+        <li><a href="{% url 'quotes-home' %}">home</a></li>
+        {% for day in dias %}
+            <li><a href="{% url 'message_x_day' day %}">{{day}}</a></li>
+        {% endfor %}
+    </ul>
+</nav>

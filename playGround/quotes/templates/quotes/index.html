@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block titulo %}quotes | home{% endblock %}
+{% block content %}
+    {% include './includes/nav.html' %}
+    <h1>Quotes per day</h1>
+    <div>
+        <p>Estas son los mensajes que tienes por día:</p>
+        <ul>
+            {% for day in days%}                
+                <li><a href="{% url 'message_x_day' day %}">{{day}}</a></li>    
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

@@ -25,4 +25,5 @@ urlpatterns = [
     # path('carlos/', views.index, name='Carlos') # Versión mas rudimentaria e individual de colocar una view
     path('first-app/', include('firstApp.urls')),
     path('quotes/', include('quotes.urls')),
+    path('landing/', include('landing.urls')),
 ]

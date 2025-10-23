@@ -16,12 +16,8 @@ quotes = {
 # Create your views here.
 
 def index(request): 
-    urls_mssg = ""
     days_keys_list = list(quotes.keys())
-    for day_key in days_keys_list:
-        urls_mssg += f'<li><a href="{reverse('message_x_day', args=[day_key])}">{day_key}</a></li>'
-    list_html = f"<ul>{urls_mssg}</ul>"
-    return HttpResponse(list_html)
+    return render(request, 'quotes/index.html', {'days': days_keys_list})
 
 def messages_per_day(request, day): # Imporante que el name del parametro enviado desde la url se ubique igual en la view 
     
@@ -44,3 +40,6 @@ def messages_per_day_with_number(request, day):
     # Si tenemos arg en la url, es importante detallarán su envió mediate una lista asignada a 'args':
     message_url = reverse('message_x_day', args=[days_keys_list[day-1]])
     return HttpResponseRedirect(message_url) 
+
+def test(request):
+    return render(request, 'quotes/test.html')

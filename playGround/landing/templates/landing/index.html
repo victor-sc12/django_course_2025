@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block titulo %} Tools | Home {% endblock %}
+{% block content %}
+    {% if name %}
+    <div>Hola {{name | title}}</div>
+    {% else %}
+    <div>Hola desconocido</div>
+    {% endif %}
+
+    <div>Fecha actual: {{today | date:"d/m/Y"}}</div>
+
+    <!-- acceso a los elementos de un iterable mediante for -->
+    <ul>
+        {% for item in lista %}
+            <li><a href="{% url 'tools' tool=item.id %}">{{item.name}}</a></li>
+
+        <!-- templatetag propios de 'for' tag que evalua si el iterable esta vacio: -->
+        {% empty %} 
+            <div>Tu lista esta vacía</div>
+        {% endfor %}
+    </ul>
+
+    <!-- acceso a los elementos de un iterable de manera individual -->
+    <ul>
+        <li>{{lista.0.name}}</li>
+        <li>{{lista.1.name}}</li>
+        <li>{{lista.2.name}}</li>
+    </ul>
+{% endblock %}
