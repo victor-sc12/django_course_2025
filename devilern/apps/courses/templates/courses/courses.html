@@ -1,0 +1,52 @@
+{% extends "includes/base.html" %}
+{% load static %}
+
+{% block title %}Devilearn{% endblock title %}
+{% block custom_styles %}<link rel="stylesheet" href= '{% static "css/styles.css" %}' />{% endblock custom_styles %}
+{% block content %}
+    <div class="layout">
+
+        {% include "includes/sidebar.html" %}
+
+        <!-- Main content -->
+        <div class="main-content">
+            
+            {% include "includes/header.html"%}
+
+            <!-- Aquí va el contenido de la página -->
+            <main>
+                <!-- === COURSE CARDS === -->
+
+                <div class="carousel-wrapper">
+                    <div class="course-grid">
+                        <div class="course-grid">
+
+                            {% for curso in courses %}
+                            <div class="course-card">
+                                <a href="#">
+                                    <img src= "{% static curso.img %}" alt="Course Image" class="course-img" />
+                                    <div class="course-info">
+                                        <div class="course-rating">
+                                            <span class="tag beginner">{{curso.level}}</span>
+                                            <div class="course-meta">
+                                                <span><i class="fa-solid fa-star"></i> {{curso.rating}}</span>
+                                            </div>
+                                        </div>
+
+                                        <h3 class="course-title">{{curso.title}}</h3>
+                                        <div class="author"><img src={{curso.author_img}}
+                                                alt=""><span>{{curso.author_name}}</span></div>
+                                    </div>
+                                </a>
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+{% endblock content %}
+{% block scripts %} <script src='{% static "js/script.js" %}'></script> {% endblock scripts %}
