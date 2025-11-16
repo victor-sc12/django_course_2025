@@ -26,4 +26,5 @@ urlpatterns = [
     path('first-app/', include('firstApp.urls')),
     path('quotes/', include('quotes.urls')),
     path('landing/', include('landing.urls')),
+    path('library/', include('library.urls')),
 ]
