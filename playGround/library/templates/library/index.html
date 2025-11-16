@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Index | Library{% endblock %}
+
+{% block content %}
+
+<form action="get">
+    <input type="text" name="query_serch" placeholder="Buscar por título o autor" value="{{query}}">
+    <button type="submit">buscar</button>
+</form>
+
+<ul>
+    {{autor}}
+    {{libros}}
+    {{genero}}
+</ul>
+
+
+{% endblock %}
