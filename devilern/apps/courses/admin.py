@@ -44,3 +44,26 @@ class ReviewAdmin(admin.ModelAdmin):
     list_display = ('user', 'course__title', 'rating', 'created_at')
     list_filter = ('rating', 'course__title', 'created_at')
     search_fields = ('user', 'course__title', 'comment')
+
+
+# Content Model y parent models register:
+@admin.register(Content)
+class ContentAdmin(admin.ModelAdmin):
+    list_display = ('module__title', 'content_type', 'item')
+    list_filter = ('module__title',)
+
+@admin.register(Text)
+class TextAdmin(admin.ModelAdmin):
+    list_display = ('owner', 'title', 'content', 'updated_at')
+
+@admin.register(Video)
+class VideoAdmin(admin.ModelAdmin):
+    list_display = ('owner', 'title', 'url', 'updated_at')
+
+@admin.register(File)
+class FileAdmin(admin.ModelAdmin):
+    list_display = ('owner', 'title', 'file', 'updated_at')
+
+@admin.register(Image)
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ('owner', 'title', 'file', 'updated_at')

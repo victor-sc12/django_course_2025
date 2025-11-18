@@ -21,13 +21,29 @@
                     <div class="course-sections">
                         <h2>{{course.title}}</h2>
                         <div class="accordion">
-                            {% for seccion in course.secciones %}
+                            {% for module in modules %}
                             <div class="accordion-item">
-                                <button class="accordion-header">Seccion {{seccion.id}}: {{seccion.title_section}}</button>
+                                <button class="accordion-header">Seccion {{module.order}}: {{module.title}}</button>
                                 <div class="accordion-content">
                                     <ul>
-                                        {% for content in seccion.content_section %}
-                                        <li><i class="fa-solid {% if content.type == 'video' %} fa-video {% else %} fa-file {% endif %}"></i>{{content.name}}</li>
+                                        {% for content in module.module_content.all %}
+                                        <li>
+                                            {% if content.content_type.model == 'video'%}
+                                                <i class="fa-solid fa-video"></i>
+                                            {% endif %}
+                                            {% if content.content_type.model == 'text'%}
+                                                <i class="fa-solid fa-align-left"></i>
+                                            {% endif %}
+                                            {% if content.content_type.model == 'image'%}
+                                                <i class="fa-solid fa-image"></i>
+                                            {% endif %}
+                                            {% if content.content_type.model == 'file'%}
+                                                <i class="fa-solid fa-file"></i>
+                                            {% endif %}
+                                        </li>
+                                        {{content.item.title}}
+                                        {% empty %}
+                                        <li>No content yet</li>   
                                         {% endfor %}
                                     </ul>
                                 </div>
@@ -41,17 +57,17 @@
                     <div class="course-info-card">
                         <div class="card-banner">
                             <div class="tag">{devilearn}</div>
-                            <img src="{% static course.img %}" alt="Curso Django" />
-                            <img class="author-avatar" src="https://randomuser.me/api/portraits/men/69.jpg" alt="Autor">
+                            <img src="{{course.image}}" alt="{{course.title}}" />
+                            <img class="author-avatar" src="{{course.owner.user_instructor.photo}}" alt="{{course.owner.get_full_name}}">
                         </div>
                         <div class="card-body">
                             <h3>Acerca de este curso</h3>
                             <ul class="course-details">
-                                <li><i class="fa-solid fa-file"></i> {{course.info.lessons}} lecciones</li>
-                                <li><i class="fa-solid fa-video"></i> {{course.info.hours}} horas de contenido en video</li>
-                                <li><i class="fa-solid fa-graduation-cap"></i> {{course.info.instructor}}</li>
+                                <li><i class="fa-solid fa-file"></i> {{total_clases}} lecciones</li>
+                                <li><i class="fa-solid fa-video"></i> {{course.duration}} horas de contenido en video</li>
+                                <li><i class="fa-solid fa-graduation-cap"></i> {{course.owner.get_full_name}}</li>
                             </ul>
-                            <a class="btn bnt-primary btn-course" href="{% url course.link %}">Continuar aprendiendo</a>
+                            <a class="btn bnt-primary btn-course" href="{% url 'course_lessons' slug=course.slug %}">Continuar aprendiendo</a>
 
                         </div>
                     </div>

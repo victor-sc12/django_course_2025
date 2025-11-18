@@ -11,24 +11,32 @@
   "model": "courses.category",
   "pk": 2,
   "fields": {
-    "name": "Machine Learning",
-    "slug": "machine-learning"
+    "name": "Software development",
+    "slug": "software-development"
   }
 },
 {
   "model": "courses.category",
   "pk": 3,
   "fields": {
-    "name": "Análisis de Datos",
-    "slug": "analisis-de-datos"
+    "name": "Python",
+    "slug": "python"
   }
 },
 {
   "model": "courses.category",
   "pk": 4,
   "fields": {
-    "name": "Design Thinking",
-    "slug": "design-thinking"
+    "name": "golang",
+    "slug": "golang"
+  }
+},
+{
+  "model": "courses.category",
+  "pk": 5,
+  "fields": {
+    "name": "django",
+    "slug": "django"
   }
 }
 ]

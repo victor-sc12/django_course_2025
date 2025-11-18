@@ -19,29 +19,42 @@
 
                 <div class="carousel-wrapper">
                     <div class="course-grid">
-                        <div class="course-grid">
-
-                            {% for curso in courses %}
-                            <div class="course-card">
-                                <a href="#">
-                                    <img src= "{% static curso.img %}" alt="Course Image" class="course-img" />
-                                    <div class="course-info">
-                                        <div class="course-rating">
-                                            <span class="tag beginner">{{curso.level}}</span>
-                                            <div class="course-meta">
-                                                <span><i class="fa-solid fa-star"></i> {{curso.rating}}</span>
-                                            </div>
+                        
+                        {% for curso in courses %}
+                        <div class="course-card">
+                            <a href="{% url 'course_detail' slug=curso.slug %}">
+                                <img src= "{{curso.image}}" alt="Course Image" class="course-img" />
+                                <div class="course-info">
+                                    <div class="course-rating">
+                                        <span class="tag beginner">{{curso.level}}</span>
+                                        <div class="course-meta">
+                                            <span><i class="fa-solid fa-star"></i> {{curso.rating}}</span>
                                         </div>
-
-                                        <h3 class="course-title">{{curso.title}}</h3>
-                                        <div class="author"><img src={{curso.author_img}}
-                                                alt=""><span>{{curso.author_name}}</span></div>
                                     </div>
-                                </a>
-                            </div>
-                            {% endfor %}
 
+                                    <h3 class="course-title">{{curso.title}}</h3>
+                                    <div class="author"><img src={{curso.owner.user_instructor.photo}}
+                                            alt=""><span>{{curso.owner.get_full_name}}</span></div>
+                                </div>
+                            </a>
                         </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="paginator">
+                        
+                        {% if courses.has_previous %}
+                        <a href="?page=1&{{query_string}}">Primera</a>
+                        <a href="?page={{courses.previous_page_number}}&{{query_string}}">Anterior</a>
+                        {% endif %}
+
+                        <span>Página {{courses.number}} de {{courses.paginator.num_pages}}</span>
+
+                        {% if courses.has_next %}
+                        <a href="?page={{courses.next_page_number}}&{{query_string}}">Siguiente</a>
+                        <a href="?page={{courses.paginator.num_pages}}&{{query_string}}">Última</a>
+                        {% endif %}
+
                     </div>
                 </div>
 
