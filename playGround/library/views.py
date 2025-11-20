@@ -1,8 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from django.db.models import Q
 from django.http import HttpResponseNotFound
 from django.core.paginator import Paginator
+from .forms import ReviewSimpleForm
+from django.contrib.auth import get_user_model
+from django.contrib import messages
+
+User = get_user_model()
 
 # Create your views here.
 def index(request):
@@ -38,3 +43,26 @@ def index(request):
         })
     except Exception:
         return HttpResponseNotFound('Page not found')
+
+def add_review(request, book_id):
+    libro = get_object_or_404(Libro, id=book_id)
+    form = ReviewSimpleForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            rating = form.cleaned_data['rating']
+            text = form.cleaned_data['text']
+            user = request.user if request.user.is_authenticated else User.objects.first() 
+
+            Review.objects.create(rating=rating, text=text, usuario=user, libro=libro)
+
+            messages.success(request, 'Grcias por la reseña')
+            return redirect('recommend_book', book_id=book_id)
+        
+        else:
+            messages.error(request, 'corrige los errores del form')
+    
+    return render(request, 'library/add_review.html', {
+        'form':form, 
+        'libro':libro 
+    })
