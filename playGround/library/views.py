@@ -3,7 +3,7 @@ from .models import *
 from django.db.models import Q
 from django.http import HttpResponseNotFound
 from django.core.paginator import Paginator
-from .forms import ReviewSimpleForm
+from .forms import ReviewSimpleForm, ReviewForm
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 
@@ -46,21 +46,29 @@ def index(request):
 
 def add_review(request, book_id):
     libro = get_object_or_404(Libro, id=book_id)
-    form = ReviewSimpleForm(request.POST or None)
+    form = ReviewForm(request.POST or None)
 
     if request.method == 'POST':
         if form.is_valid():
-            rating = form.cleaned_data['rating']
-            text = form.cleaned_data['text']
-            user = request.user if request.user.is_authenticated else User.objects.first() 
+            # Se guarda la info momentanea del form pero todavía no se envía a la db (gracias a commit = 'False'),
+            # esto permite que aún poblemos los otros atributos que están pendientes, como libro y usuario. 
+            review = form.save(commit=False)  
+            review.libro = libro
+            review.usuario = request.user
+            review.save()
 
-            Review.objects.create(rating=rating, text=text, usuario=user, libro=libro)
+            # Gestión del nuevo campo del form (se ubica después de guardar la info en la db, porque obvio
+            # no se puede guardar la info de este field en el modelo):
+            would_recommend = form.cleaned_data.get('would_recommend')
 
-            messages.success(request, 'Grcias por la reseña')
-            return redirect('recommend_book', book_id=book_id)
+            if would_recommend:
+                messages.success(request, 'Review y recomendación definidos correctamente.')
+            else:   
+                messages.success(request, "Review realizada correctamente.")
+            return redirect("recommend_book", book_id = book_id) 
         
         else:
-            messages.error(request, 'corrige los errores del form')
+            messages.error(request, 'corrige los errores del form', "danger")
     
     return render(request, 'library/add_review.html', {
         'form':form, 
