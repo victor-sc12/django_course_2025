@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy
 
 # Create your models here.
 class Autor(models.Model):
@@ -30,6 +31,9 @@ class Libro(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse_lazy('libro_detail', kwargs={'pk':self.id})
     
 class DetalleLibro(models.Model):
     summary = models.TextField()

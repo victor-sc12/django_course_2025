@@ -77,3 +77,12 @@ class ReviewForm(forms.ModelForm):
             review.save()
 
         return review
+    
+class LibroForm(forms.ModelForm):
+    class Meta:
+        model = Libro
+        fields = '__all__'
+
+        # widgets = {
+        #     'publication_date': forms.DateField()
+        # }

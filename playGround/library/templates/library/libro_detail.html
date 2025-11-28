@@ -1,0 +1,18 @@
+{%extends 'base.html' %}
+
+{% block content %}
+
+<h2>{{book.title}} - Details</h2>
+<p>Autor: {{book.autor.name}}</p>
+<p>ISBN: {{book.isbn}}</p>
+<!-- <p>Géneros: {{book.generos.all}}</p> -->
+<p>Páginas: {{book.pages}}</p>
+<p>Publicación: {{book.publication_date}}</p>
+
+{% if book.detalle %}
+    <div>
+        <p>Resumen: {{book.detalle.summary}}</p>
+    </div>
+{% endif %}
+
+{% endblock %}

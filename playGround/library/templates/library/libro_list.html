@@ -1,0 +1,29 @@
+{%extends 'base.html' %}
+
+{% block content %}
+
+<h2>Libros Disponibles</h2>
+
+<ul>
+    {% for libro in libros %}
+    <li><strong>{{libro.title}}</strong> - {{libro.autor.name}} <a href="{% url 'libro_detail' libro.id %}">(ver más)</a></li>
+    {% empty %}
+    <li>No se ha encontrado ningún libro</li>
+    {% endfor %}
+</ul>
+
+{% if is_paginated %}
+
+    {% if page_obj.has_previous %}
+        <a href="?page={{page_obj.previous_page_number}}">Anterior</a>
+    {% endif %}
+    
+    <span>Página {{page_obj.number}} de {{page_obj.paginator.num_pages}}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{page_obj.next_page_number}}">Siguiente</a>
+    {% endif %}
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{%extends 'base.html'%}
+
+{% block content %}
+
+<h2>¿Seguro que desea eliminar la revie?</h2>
+<p><strong>{{object.libro.title}}</strong></p>
+<p>{{object.text}}</p>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{{object.libro.get_absolute_url}}" class="btn btn-secondary">Cancelar</a>
+</form>
+
+{% endblock %}
