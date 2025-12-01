@@ -44,6 +44,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # los siguientes middlewares los incorpora django por default al momento de crear el proyecto.
+    # De preferencia no se deben tocar :'b
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -51,6 +53,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # registro de middlewares personalizados:
+    'library.middleware.TimingMiddleware',
+    'library.middleware.BlockIpMiddleware',
+    'library.middleware.OfficeHoursOnlyMiddleware',
+    'library.middleware.RequiredLoginMiddleware',
 ]
 
 ROOT_URLCONF = 'playGround.urls'
@@ -130,3 +138,12 @@ STATICFILES_DIRS = [  # Para registrar archivos estaticos globales
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Session settings custom
+SESSION_COOKIE_AGE = 3600  # establecer duración de la sesión en seg
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # la sesión persistirá después de cerrar el navegador
+SESSION_SAVE_EVERY_REQUEST = True  # la sesión se guardara y actualizará en db en cada solicitud 
+
+# Login redirect (url a la que se accede después del log):
+LOGIN_REDIRECT_URL = 'libro_list'
+LOGOUT_REDIRECT_URL = 'login'

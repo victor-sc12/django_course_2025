@@ -30,4 +30,11 @@
     {% endif %}
 </nav>
 
+{% if last_libro %}
+    <p>Ir a último libro visto: <a href="{% url 'libro_detail' last_libro.id %}">{{last_libro.title}}</a></p>
+{% else %}
+    <p>No has visitado ningún libro</p>
+{% endif %}
+
+
 {% endblock %}

@@ -49,6 +49,11 @@ class LibroDetailView(DetailView):
     template_name = 'library/libro_detail.html'
     context_object_name = 'book'
 
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        request.session['last_libro_viewed'] = self.object.id
+        return response
+
 class ReviewCreateView(CreateView):
     model = Review
     form_class = ReviewForm
@@ -153,6 +158,7 @@ def index(request):
         query_filter = request.GET.get('query_search')
         date_start = request.GET.get('start')
         date_end = request.GET.get('end')
+        last_libro_viewed_id = request.session['last_libro_viewed']
 
         # capturar título o nombre de autor
         if query_filter:
@@ -173,10 +179,20 @@ def index(request):
             query_params.pop('page')
         query_string = query_params.urlencode()
 
+        # capturar id del último libro visto:
+        if last_libro_viewed_id:
+            try:
+                last_libro = Libro.objects.get(id = last_libro_viewed_id)
+            except Libro.DoesNotExist:
+                last_libro = None
+        else:
+            last_libro = None
+
         return render(request, 'library/index.html', {
             'libros': page_obj,
             'query': query_filter,
             'query_string': query_string,
+            'last_libro': last_libro,
         })
     except Exception:
         return HttpResponseNotFound('Page not found')
@@ -230,3 +246,15 @@ def add_libro(request):
         form = LibroForm()
 
     return render(request, 'library/add_libro.html', {'form':form})
+
+def visit_counter(request):
+
+    # aca estamos definiendo una nueva key para el 'dict' de session id 
+    visits = request.session.get('visits', 0)
+    visits += 1
+    request.session['visits'] = visits
+
+    # en cuanto expirará la session actual:
+    # request.session.set_expiry(15)
+
+    return HttpResponse(f'Número de visitas: {visits}')
